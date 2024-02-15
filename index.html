@@ -1,70 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffee cafe</title>
-    <link rel="stylesheet" href="index.css">
-</head>
+  <body>
+    <header>
+      <div class="header__container">
+        <div class="header__menu container">
+          <ul class="header__list">
+            <li><a href="/index.html">shop</a></li>
+            <li>
+              <search>
+                <form>
+                  <input name="fsrch" id="fsrch" placeholder="Search fo" />
+                </form>
+              </search>
+            </li>
+            <li><a href="#">cart</a></li>
+            <li><a href="/form.html">form</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
 
-<body>
-    <div class="menu">
-        <header>
-            <h1 class="heder__title">CAMPER CAFE</h1>
-            <p class="heder__info">Est. 2020</p>
-        </header>
-        <main>
-            <section class="menu__section">
-                <h2 class="menu__title">Coffee</h2>
-                <img src="https://cdn.freecodecamp.org/curriculum/css-cafe/coffee.jpg" alt="coffee icon">
-                <article class="menu__info">
-                    <p class="menu__info-flavor">French Vanilla</p>
-                    <p class="menu__info-price">3.00</p>
-                </article>
-                <article class="menu__info">
-                    <p class="menu__info-flavor">Caramel Macchiato</p>
-                    <p class="menu__info-price">3.75</p>
-                </article>
-                <article class="menu__info">
-                    <p class="menu__info-flavor">Pumpkin Spice</p>
-                    <p class="menu__info-price">3.50</p>
-                </article>
-                <article class="menu__info">
-                    <p class="menu__info-flavor">Hazelnut</p>
-                    <p class="menu__info-price">4.00</p>
-                </article>
-                <article class="menu__info">
-                    <p class="menu__info-flavor">Mocha</p>
-                    <p class="menu__info-price">4.50</p>
-                </article>
-            </section>
-            <section class="menu__section">
-                <h2 class="menu__title">Desserts</h2>
-                <img src="https://cdn.freecodecamp.org/curriculum/css-cafe/pie.jpg" alt="pie icon">
-                <article class="menu__info">
-                    <p class="menu__info-dessert">Donut</p>
-                    <p class="menu__info-price">1.50</p>
-                </article>
-                <article class="menu__info">
-                    <p class="menu__info-dessert">Cherry Pie</p>
-                    <p class="menu__info-price">2.75</p>
-                </article>
-                <article class="menu__info">
-                    <p class="menu__info-dessert">Cheesecake</p>
-                    <p class="menu__info-price">3.00</p>
-                </article>
-                <article class="menu__info">
-                    <p class="menu__info-dessert">Cinnamon Roll</p>
-                    <p class="menu__info-price">2.50</p>
-                </article>
-            </section>
-        </main>
-        <footer>
-            <a href="https://www.freecodecamp.org" target="_blank">Visit our website</a>
-            <p>123 Free Code Camp Drive</p>
-        </footer>
-    </div>
-</body>
+    <main>
+      <div class="main__hero">
+        <div class="main__hero-baner">
+          <h1>Wallet shop</h1>
+        </div>
+      </div>
+      <div class="products container"></div>
+    </main>
 
+    <footer></footer>
+    <!-- <script src="./form.js"></script> -->
+    <script  type="module" src="/index.js"></script>
+   
+  </body>
 </html>
