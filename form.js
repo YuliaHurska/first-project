@@ -8,8 +8,8 @@ let container = document.querySelector(".new-product");
 container.appendChild(changeBtn);
 
 let savedProducts = JSON.parse(localStorage.getItem("products")) || [];
-let savedId = JSON.parse(localStorage.getItem("changed"))
-if(!savedId){
+
+
 submitBtn.addEventListener("click", () => {
   let productName=inputName.value;
   const id = Date.now().toString();
@@ -27,7 +27,10 @@ function createProduct(a,b){
 
   
     const newProduct = new Product(a,b);
-    // let savedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    let savedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    if (!Array.isArray(savedProducts)) {
+      savedProducts = []; // Якщо не масив, створюємо новий порожній масив
+    }
 
     // Додаємо новий продукт до масиву
     savedProducts.push(newProduct);
@@ -41,30 +44,24 @@ function createProduct(a,b){
 
     console.log(localStorage);
 });
-}
-let idOfChangedProduct = localStorage.getItem("productIndex");
+
+
+
+
+
  
-
-
-//відображення данних у вводі
-
-   const findObj = savedProducts.find(item => item.id === idOfChangedProduct);
-localStorage.setItem("changed",JSON.stringify(findObj));
-console.log(findObj);
-
-let changedOBJ = JSON.parse(localStorage.getItem("changed"))|| [];
-document.querySelector(".form__info-input__name input").value = changedOBJ.name;
-
 //оновлення данних
 changeBtn.addEventListener("click",()=>{
-  
-    findObj.name = inputName.value;
-  localStorage.setItem("products",findObj);
+  let findObj = JSON.parse(localStorage.getItem("changed"));
+  findObj.name = inputName.value;
+  localStorage.setItem("products",JSON.stringify(findObj));
 console.log(localStorage);
 })
 
-console.log(idOfChangedProduct);
-console.log(findObj);
+let changedOBJ = JSON.parse(localStorage.getItem("changed"))|| [];
+document.querySelector(".form__info-input__name input").value = changedOBJ.name;
+// console.log(idOfChangedProduct);
+// console.log(findObj);
 
 // console.log();
 
