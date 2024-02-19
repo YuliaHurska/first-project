@@ -17,12 +17,12 @@ function createBtn(naming, itClass, pass) {
   return button;
 }
 
-
 function createProductCard(text, info, container) {
+  
   let cardName = document.createElement("div");
   cardName.classList.add("storage__card");
   cardName.id = info.id;
-
+  
   let cardTittle = document.createElement("h3");
   cardTittle.innerText = text;
   container.appendChild(cardName);
@@ -34,6 +34,10 @@ function createProductCard(text, info, container) {
   cardImg.alt = "albom-photo";
   cardName.appendChild(cardImg);
 
+  let cardBtnContainer = document.createElement("div");
+  cardBtnContainer.classList.add("storage__btns")
+  cardName.appendChild(cardBtnContainer);
+
   let cardDescription = document.createElement("div");
   cardDescription.classList.add("storage__description");
   cardDescription.innerText = info.description;
@@ -44,20 +48,14 @@ function createProductCard(text, info, container) {
   cardPrice.innerText = info.price + ` ${curent}`;
   cardName.appendChild(cardPrice);
 
-
   let btnClass = "buy-btn";
   let btnText = "Buy";
-  let buyBtn = createBtn(btnText, btnClass, cardName,info);
-
-
-
+  let buyBtn = createBtn(btnText, btnClass, cardBtnContainer,info);
 
   buyBtn.addEventListener("click", () => {
-    updCarSumm();
-
+   
     // Отримуємо ідентифікатор товару, який додається до корзини
     const productId = info.id;
-
 
     // Отримуємо список товарів у корзині з localStorage
     let cardItems = JSON.parse(localStorage.getItem("cardItems")) || [];
@@ -69,8 +67,7 @@ function createProductCard(text, info, container) {
       
       let delBtnClass = "delate-btn";
       let delBtnText = "Delate";
-      let delBtn = createBtn(delBtnText,delBtnClass,cardName);
-      // Додаємо обробник події для кнопки "Delete"
+      let delBtn = createBtn(delBtnText,delBtnClass,cardBtnContainer);
       delBtn.addEventListener("click", () => {
         let cardItems = JSON.parse(localStorage.getItem("cardItems")) || [];
         const existingItem = cardItems.find((item) => item.id === productId);
@@ -78,10 +75,7 @@ function createProductCard(text, info, container) {
           existingItem.quantity--;
           localStorage.setItem("cardItems", JSON.stringify(cardItems)); // Оновлюємо localStorage
           console.log("Quantity decremented successfully!");
-
-
-          // console.log(existingItem.quantity);
-         
+  
       } else {
           let index = cardItems.findIndex(item => item.id === productId);
           if (index !== -1) {
@@ -108,10 +102,6 @@ function createProductCard(text, info, container) {
     }
     localStorage.setItem("cardItems", JSON.stringify(cardItems)); // Оновлюємо дані у localStorage
     console.log("Quantity decremented successfully!");
-    // console.log(existingItem.quantity);
-
-
-
     updCarSumm();
 
     localStorage.setItem("cardItems", JSON.stringify(cardItems));
@@ -120,13 +110,11 @@ function createProductCard(text, info, container) {
 
   });
   
-  
   localStorage.removeItem("changed");
   localStorage.removeItem("productIndex");
   console.log(localStorage);
   
 }
-
 
 //// витягую ІД
 function getProductId() {
@@ -157,18 +145,6 @@ function search(text) {
         }
     });
 }
-// function summ (x,y){
-//   // let result = 1;
-//   // for (let i = 0; i < n; i++){
-//   //   result *= x;
-//   // }
-//   if(n === 1){
-//     return x
-//   }else{
-//     return x* summ(x,y-1);
-//   }
-// // return result;
-// }
 
 function cartSumm(){
   let cartsQuantity = JSON.parse(localStorage.getItem("cardItems")) || [];

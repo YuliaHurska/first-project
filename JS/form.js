@@ -4,10 +4,11 @@ let inputName = document.querySelector(".form__info-input__name input");
 let inputDescription = document.querySelector(".form__info-input__description textarea");
 let inputPrice =  document.querySelector(".form__info-input__price input");
 let inputImg = document.querySelector(".form__info-input__photo input");
+
+let container = document.querySelector(".form__button-container");
 let changeBtn = document.createElement("button");
 changeBtn.classList.add("change-btn");
 changeBtn.innerText = "change";
-let container = document.querySelector(".new-product");
 container.appendChild(changeBtn);
 
 let savedProducts = JSON.parse(localStorage.getItem("products")) || [];
@@ -31,12 +32,10 @@ function createProduct(name,id,description,price,img){
         }
     }
 
-
-  
     const newProduct = new Product(name,id,description,price,img);
     let savedProducts = JSON.parse(localStorage.getItem("products")) || [];
     if (!Array.isArray(savedProducts)) {
-      savedProducts = []; // Якщо не масив, створюємо новий порожній масив
+      savedProducts = [];
     }
 
     // Додаємо новий продукт до масиву
@@ -59,24 +58,21 @@ let findObj = JSON.parse(localStorage.getItem("changed"));
 console.log(localStorage);
 
 changeBtn.addEventListener("click", () => {
-  // Отримуємо індекс об'єкта в масиві
   const index = savedProducts.findIndex(item => item.id === findObj.id);
   
-  if (index !== -1) { // Перевіряємо, чи знайдено об'єкт з вказаним ідентифікатором
-      // Змінюємо дані поточного об'єкта
+  if (index !== -1) { 
+
       savedProducts[index].name = inputName.value;
       savedProducts[index].img = inputImg.value;
       savedProducts[index].description = inputDescription.value;
       savedProducts[index].price = inputPrice.value;
-      // Оновлюємо масив продуктів у LocalStorage
+
       localStorage.setItem("products", JSON.stringify(savedProducts));
       
-      // Повідомлення про успішне оновлення
-      alert("Product updated successfully!");
       window.location.href = "/index.html"
 
   } else {
-      alert("Product not found!"); // Виводимо повідомлення, якщо об'єкт не знайдено
+      alert("Product not found!"); 
   }
   inputName.value = "";
   inputDescription.value = "";
@@ -84,13 +80,15 @@ changeBtn.addEventListener("click", () => {
   inputPrice.value = "";
 })
 
-
 let changedOBJ = JSON.parse(localStorage.getItem("changed"))|| [];
+
 if(typeof changedOBJ.id !== "undefined"){
+
 document.querySelector(".form__info-input__name input").value = changedOBJ.name;
 document.querySelector(".form__info-input__description textarea").value = changedOBJ.description;
 document.querySelector(".form__info-input__price input").value = changedOBJ.price;
 document.querySelector(".form__info-input__photo input").value = changedOBJ.img;
+
 }else{
   inputName.value = "";
 }

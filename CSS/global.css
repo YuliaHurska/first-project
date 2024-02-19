@@ -1,4 +1,17 @@
-/* :root {
-    --;
+:root {
+    --text-color:white;
+    --background-color: black;
+    --acsent-colorr: rgb(242 174 214);;
+    --gradient-color:linear-gradient(45deg, black, rgb(247 164 213));
+    --dark-acsent-colour: rgb(230, 113, 210);
+    --light-acsent-color: rgb(234, 249, 250);
+    --other-acsent-colorr:hsla(188, 67%, 82%, 0.634);
+    --icon-colour: rgb(123 148 185);
+    --dark-transparent-color:rgb(4 0 11 / 31%);
+    --dark-text-color:rgb(221, 205, 223);
+    --light-background: rgb(150 221 226 / 47%);
+    --light-transpsrent-color: rgb(244 239 252 / 31%);
 
-} */
+    --decorative-text:"Protest Revolution", sans-serif;;
+
+}

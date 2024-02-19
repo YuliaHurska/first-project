@@ -37,7 +37,7 @@ cardImgContainer.classList.add("product__img");
   cardPrice.classList.add("product__price");
   cardPrice.innerText = info.price + ` ${curent}`;
   cardName.appendChild(cardPrice);
-;
+
   let changeBtn = document.createElement("button");
   let delBtn = document.createElement("button");
 
@@ -68,13 +68,17 @@ cardImgContainer.classList.add("product__img");
     window.location.href = "/form.html";
   });
   delBtn.addEventListener("click", () => {
-    // console.log(indexOf.cardInfo);
+  
+    if (confirm("delate this disk?")){
     let index = saved.findIndex((item) => item.id === info.id);
     if (index !== -1) {
       saved.splice(index, 1);
       localStorage.setItem("products", JSON.stringify(saved));
       location.reload();
     }
+  }else{
+    console.log("whoooh almoust...");
+  }
   });
 
   localStorage.removeItem("changed");
@@ -96,18 +100,18 @@ getProductId();
 const searchInput = document.getElementById("searchInput");
 
 searchInput.addEventListener("input", function() {
-    const searchText = this.value.trim(); // Отримуємо введений текст і видаляємо зайві пробіли
-    search(searchText); // Викликаємо функцію пошуку з введеним текстом
+    const searchText = this.value.trim(); 
+    search(searchText); 
 });
 function search(text) {
-    const products = document.querySelectorAll(".product__card"); // Отримуємо всі елементи, які мають клас "product_card"
+    const products = document.querySelectorAll(".product__card"); 
     
     products.forEach(product => {
-        const name = product.innerText.toLowerCase(); // Отримуємо текст елементу у нижньому регістрі
+        const name = product.innerText.toLowerCase(); 
         if (name.includes(text.toLowerCase())) {
-          product.style.display = "flex"; // Показуємо елемент, якщо текст відповідає введеному
+          product.style.display = "flex"; 
         } else {
-          product.style.display = "none"; // Ховаємо елемент, якщо текст не відповідає введеному
+          product.style.display = "none";
         }
     });
 }
