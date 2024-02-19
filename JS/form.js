@@ -1,6 +1,9 @@
 
 let submitBtn = document.getElementById("btn");
 let inputName = document.querySelector(".form__info-input__name input");
+let inputDescription = document.querySelector(".form__info-input__description textarea");
+let inputPrice =  document.querySelector(".form__info-input__price input");
+let inputImg = document.querySelector(".form__info-input__photo input");
 let changeBtn = document.createElement("button");
 changeBtn.classList.add("change-btn");
 changeBtn.innerText = "change";
@@ -9,24 +12,28 @@ container.appendChild(changeBtn);
 
 let savedProducts = JSON.parse(localStorage.getItem("products")) || [];
 
-
 submitBtn.addEventListener("click", () => {
   let productName=inputName.value;
+  let productDescription = inputDescription.value;
+  let productPrice = inputPrice.value;
+  let productImg = inputImg.value;
   const id = Date.now().toString();
 
-function createProduct(a,b){
-        
-        
+function createProduct(name,id,description,price,img){
+               
     class Product {
-        constructor(name,id) {
+        constructor(name,id,description,price,img) {
             this.name = name;
             this.id = id;
+            this.description = description;
+            this.price = price;
+            this.img = img;
         }
     }
 
 
   
-    const newProduct = new Product(a,b);
+    const newProduct = new Product(name,id,description,price,img);
     let savedProducts = JSON.parse(localStorage.getItem("products")) || [];
     if (!Array.isArray(savedProducts)) {
       savedProducts = []; // Якщо не масив, створюємо новий порожній масив
@@ -38,32 +45,56 @@ function createProduct(a,b){
     // Зберігаємо оновлений масив продуктів у localStorage
     localStorage.setItem("products", JSON.stringify(savedProducts));
     }
-    createProduct(productName,id);
-    // Отримуємо масив продуктів з localStorage або створюємо порожній масив, якщо він не існує
-    
-
+    createProduct(productName,id,productDescription,productPrice,productImg); 
+    inputName.value = "";
+    inputDescription.value = "";
+    inputImg.value = "";
+    inputPrice.value = "";
     console.log(localStorage);
 });
 
 
+let findObj = JSON.parse(localStorage.getItem("changed"));
 
-
-
- 
-//оновлення данних
-changeBtn.addEventListener("click",()=>{
-  let findObj = JSON.parse(localStorage.getItem("changed"));
-  findObj.name = inputName.value;
-  localStorage.setItem("products",JSON.stringify(findObj));
 console.log(localStorage);
+
+changeBtn.addEventListener("click", () => {
+  // Отримуємо індекс об'єкта в масиві
+  const index = savedProducts.findIndex(item => item.id === findObj.id);
+  
+  if (index !== -1) { // Перевіряємо, чи знайдено об'єкт з вказаним ідентифікатором
+      // Змінюємо дані поточного об'єкта
+      savedProducts[index].name = inputName.value;
+      savedProducts[index].img = inputImg.value;
+      savedProducts[index].description = inputDescription.value;
+      savedProducts[index].price = inputPrice.value;
+      // Оновлюємо масив продуктів у LocalStorage
+      localStorage.setItem("products", JSON.stringify(savedProducts));
+      
+      // Повідомлення про успішне оновлення
+      alert("Product updated successfully!");
+      window.location.href = "/index.html"
+
+  } else {
+      alert("Product not found!"); // Виводимо повідомлення, якщо об'єкт не знайдено
+  }
+  inputName.value = "";
+  inputDescription.value = "";
+  inputImg.value = "";
+  inputPrice.value = "";
 })
 
-let changedOBJ = JSON.parse(localStorage.getItem("changed"))|| [];
-document.querySelector(".form__info-input__name input").value = changedOBJ.name;
-// console.log(idOfChangedProduct);
-// console.log(findObj);
 
-// console.log();
+let changedOBJ = JSON.parse(localStorage.getItem("changed"))|| [];
+if(typeof changedOBJ.id !== "undefined"){
+document.querySelector(".form__info-input__name input").value = changedOBJ.name;
+document.querySelector(".form__info-input__description textarea").value = changedOBJ.description;
+document.querySelector(".form__info-input__price input").value = changedOBJ.price;
+document.querySelector(".form__info-input__photo input").value = changedOBJ.img;
+}else{
+  inputName.value = "";
+}
+console.log(changedOBJ.value)
 
 
 
