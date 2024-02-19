@@ -6,42 +6,54 @@ let curent = "грн";
 
 function createCard(text, info, container, saved) {
   let cardName = document.createElement("div");
-  cardName.classList.add("product_card");
+  cardName.classList.add("product__card");
   cardName.id = info.id;
 
+let cardImgContainer = document.createElement("div");
+let cardImg = document.createElement("img");
+cardImgContainer.classList.add("product__img");
+  cardImg.src = info.img;
+  cardImg.alt = "albom-photo";
+  cardImgContainer.appendChild(cardImg);
+  cardName.appendChild(cardImgContainer);
+  
+
   let cardTittle = document.createElement("h3");
+  
+  cardTittle.classList.add("product__tittle")
   cardTittle.innerText = text;
+  
   container.appendChild(cardName);
   cardName.appendChild(cardTittle);
 
-  let cardImg = document.createElement("img");
-  cardImg.classList.add("product_img");
-  cardImg.src = info.img;
-  cardImg.alt = "albom-photo";
-  cardName.appendChild(cardImg);
-
   let cardDescription = document.createElement("div");
-  cardDescription.classList.add("product_description");
+  cardDescription.classList.add("product__description");
   cardDescription.innerText = info.description;
-  cardName.appendChild(cardDescription);
+  cardTittle.appendChild(cardDescription);
+  
+  
 
   let cardPrice = document.createElement("div");
-  cardPrice.classList.add("product_price");
+  cardPrice.classList.add("product__price");
   cardPrice.innerText = info.price + ` ${curent}`;
   cardName.appendChild(cardPrice);
-
+;
   let changeBtn = document.createElement("button");
   let delBtn = document.createElement("button");
 
   function createButton() {
-    let buttonContainer = document.getElementById(cardName.id);
+
+    let buttonsPass = document.getElementById(cardName.id);
+    let btnContainer = document.createElement("div");
+    btnContainer.classList.add("btn__container")
     delBtn.classList.add("change-btn");
     delBtn.innerText = "delate";
-    buttonContainer.appendChild(delBtn);
+    buttonsPass.appendChild(btnContainer);
+    btnContainer.appendChild(delBtn);
 
     changeBtn.classList.add("change-btn");
     changeBtn.innerText = "change";
-    buttonContainer.appendChild(changeBtn);
+    btnContainer.appendChild(changeBtn);
   }
   createButton(cardName);
 
@@ -88,12 +100,12 @@ searchInput.addEventListener("input", function() {
     search(searchText); // Викликаємо функцію пошуку з введеним текстом
 });
 function search(text) {
-    const products = document.querySelectorAll(".product_card"); // Отримуємо всі елементи, які мають клас "product_card"
+    const products = document.querySelectorAll(".product__card"); // Отримуємо всі елементи, які мають клас "product_card"
     
     products.forEach(product => {
         const name = product.innerText.toLowerCase(); // Отримуємо текст елементу у нижньому регістрі
         if (name.includes(text.toLowerCase())) {
-          product.style.display = "block"; // Показуємо елемент, якщо текст відповідає введеному
+          product.style.display = "flex"; // Показуємо елемент, якщо текст відповідає введеному
         } else {
           product.style.display = "none"; // Ховаємо елемент, якщо текст не відповідає введеному
         }

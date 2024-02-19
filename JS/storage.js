@@ -1,8 +1,13 @@
 const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
 
-let cardContainer = document.querySelector(".cards-container");
+let cardContainer = document.querySelector(".cards__container");
 let curent = "грн";
-
+let cardCounter = document.querySelector(".cart__counter");
+function updCarSumm(){
+let cardCounter = document.querySelector(".cart__counter");
+cardCounter.innerText = `${cartSumm()}`
+}
+updCarSumm();
 
 function createBtn(naming, itClass, pass) {
   let button = document.createElement("button");
@@ -11,7 +16,7 @@ function createBtn(naming, itClass, pass) {
   pass.appendChild(button);
   return button;
 }
-// createBtn();
+
 
 function createProductCard(text, info, container) {
   let cardName = document.createElement("div");
@@ -39,14 +44,20 @@ function createProductCard(text, info, container) {
   cardPrice.innerText = info.price + ` ${curent}`;
   cardName.appendChild(cardPrice);
 
+
   let btnClass = "buy-btn";
   let btnText = "Buy";
-  let buyBtn = createBtn(btnText, btnClass, cardName);
+  let buyBtn = createBtn(btnText, btnClass, cardName,info);
+
+
 
 
   buyBtn.addEventListener("click", () => {
+    updCarSumm();
+
     // Отримуємо ідентифікатор товару, який додається до корзини
     const productId = info.id;
+
 
     // Отримуємо список товарів у корзині з localStorage
     let cardItems = JSON.parse(localStorage.getItem("cardItems")) || [];
@@ -64,21 +75,26 @@ function createProductCard(text, info, container) {
         let cardItems = JSON.parse(localStorage.getItem("cardItems")) || [];
         const existingItem = cardItems.find((item) => item.id === productId);
         if (existingItem && existingItem.quantity >1) {
-          existingItem.quantity--; 
+          existingItem.quantity--;
           localStorage.setItem("cardItems", JSON.stringify(cardItems)); // Оновлюємо localStorage
           console.log("Quantity decremented successfully!");
-          console.log(existingItem.quantity);
+
+
+          // console.log(existingItem.quantity);
+         
       } else {
           let index = cardItems.findIndex(item => item.id === productId);
           if (index !== -1) {
               cardItems.splice(index, 1);
               localStorage.setItem("cardItems", JSON.stringify(cardItems)); // Оновлюємо localStorage
               console.log("Deleted!");
+              
             delBtn.remove();
-
           };
+
           }
-      
+          updCarSumm();
+
       });
     }
     if (existingItem) {
@@ -87,24 +103,28 @@ function createProductCard(text, info, container) {
       
     } else {
      
-      cardItems.push({ id: productId, quantity: 1 });
+      cardItems.push({img:info.img, description:info.description, price:info.price, name:info.name, id: productId, quantity: 1 });
+     
     }
     localStorage.setItem("cardItems", JSON.stringify(cardItems)); // Оновлюємо дані у localStorage
     console.log("Quantity decremented successfully!");
-    console.log(existingItem.quantity);
+    // console.log(existingItem.quantity);
 
 
-    
+
+    updCarSumm();
+
     localStorage.setItem("cardItems", JSON.stringify(cardItems));
-
-    
     localStorage.removeItem("productIndex");
     localStorage.removeItem("card");
 
   });
+  
+  
   localStorage.removeItem("changed");
   localStorage.removeItem("productIndex");
   console.log(localStorage);
+  
 }
 
 
@@ -136,4 +156,26 @@ function search(text) {
           product.style.display = "none"; 
         }
     });
+}
+// function summ (x,y){
+//   // let result = 1;
+//   // for (let i = 0; i < n; i++){
+//   //   result *= x;
+//   // }
+//   if(n === 1){
+//     return x
+//   }else{
+//     return x* summ(x,y-1);
+//   }
+// // return result;
+// }
+
+function cartSumm(){
+  let cartsQuantity = JSON.parse(localStorage.getItem("cardItems")) || [];
+let count=0;
+for(let i =0;i<cartsQuantity.length;i++){
+ console.log(cartsQuantity[i].quantity);
+ count+=cartsQuantity[i].quantity;
+}
+return count;
 }
