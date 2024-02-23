@@ -94,7 +94,12 @@ document.querySelector(".form__info-input__photo input").value = changedOBJ.img;
 }
 console.log(changedOBJ.value)
 
-
+// function cleaningInputs (){
+//   inputName.value = "";
+//   inputDescription.value = "";
+//   inputImg.value = "";
+//   inputPrice.value = "";
+// }
 
 
 

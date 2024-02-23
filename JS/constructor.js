@@ -1,117 +1,113 @@
+document.addEventListener("DOMContentLoaded", () => {
+  import("./header.js").then(({ createMenuElement, createMenuList }) => {
+    // Створення списку меню та елементів меню
+    const headerContainer = document.querySelector(".header__menu");
+    const menuList = createMenuList(headerContainer);
 
-const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    createMenuElement(menuList, false, "main", "/index.html");
+    createMenuElement(menuList, true);
+    createMenuElement(menuList,false, "New Product","/form.html",false,false
+    );
+    const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    const cardContainer = document.querySelector(".products");
+    const curent = "грн";
+    const searchInput = document.getElementById("searchInput");
 
-let cardContainer = document.querySelector(".products");
-let curent = "грн";
+    // функціястворення для кожного продукту власних кнопок
+    function createCardButton(parentElement, info) {
+      const btnContainer = document.createElement("div");
+      btnContainer.classList.add("btn__container");
 
-function createCard(text, info, container, saved) {
-  let cardName = document.createElement("div");
-  cardName.classList.add("product__card");
-  cardName.id = info.id;
+      const changeBtn = document.createElement("button");
+      changeBtn.classList.add("change-btn");
+      changeBtn.innerText = "change";
+      changeBtn.addEventListener("click", () => {
+        changeProduct(info);
+      });
 
-let cardImgContainer = document.createElement("div");
-let cardImg = document.createElement("img");
-cardImgContainer.classList.add("product__img");
-  cardImg.src = info.img;
-  cardImg.alt = "albom-photo";
-  cardImgContainer.appendChild(cardImg);
-  cardName.appendChild(cardImgContainer);
-  
+      const delBtn = document.createElement("button");
+      delBtn.classList.add("change-btn");
+      delBtn.innerText = "delate";
+      delBtn.addEventListener("click", () => {
+        deleteProduct(info.id);
+      });
 
-  let cardTittle = document.createElement("h3");
-  
-  cardTittle.classList.add("product__tittle")
-  cardTittle.innerText = text;
-  
-  container.appendChild(cardName);
-  cardName.appendChild(cardTittle);
-
-  let cardDescription = document.createElement("div");
-  cardDescription.classList.add("product__description");
-  cardDescription.innerText = info.description;
-  cardTittle.appendChild(cardDescription);
-  
-  
-
-  let cardPrice = document.createElement("div");
-  cardPrice.classList.add("product__price");
-  cardPrice.innerText = info.price + ` ${curent}`;
-  cardName.appendChild(cardPrice);
-
-  let changeBtn = document.createElement("button");
-  let delBtn = document.createElement("button");
-
-  function createButton() {
-
-    let buttonsPass = document.getElementById(cardName.id);
-    let btnContainer = document.createElement("div");
-    btnContainer.classList.add("btn__container")
-    delBtn.classList.add("change-btn");
-    delBtn.innerText = "delate";
-    buttonsPass.appendChild(btnContainer);
-    btnContainer.appendChild(delBtn);
-
-    changeBtn.classList.add("change-btn");
-    changeBtn.innerText = "change";
-    btnContainer.appendChild(changeBtn);
-  }
-  createButton(cardName);
-
-  changeBtn.addEventListener("click", () => {
-    localStorage.setItem("productIndex", info.id);
-    let idOfChangedProduct = localStorage.getItem("productIndex");
-    if (typeof idOfChangedProduct !== "undefined") {
-      let findObj = saved.find((item) => item.id === idOfChangedProduct);
-      localStorage.setItem("changed", JSON.stringify(findObj));
+      btnContainer.appendChild(changeBtn);
+      btnContainer.appendChild(delBtn);
+      parentElement.appendChild(btnContainer);
     }
 
-    window.location.href = "/form.html";
-  });
-  delBtn.addEventListener("click", () => {
-  
-    if (confirm("delate this disk?")){
-    let index = saved.findIndex((item) => item.id === info.id);
-    if (index !== -1) {
-      saved.splice(index, 1);
-      localStorage.setItem("products", JSON.stringify(saved));
-      location.reload();
+    function createCard(text, info) {
+      const cardName = document.createElement("div");
+      cardName.classList.add("product__card");
+      cardName.id = info.id;
+
+      const cardImgContainer = document.createElement("div");
+      cardImgContainer.classList.add("product__img");
+      cardImgContainer.innerHTML = `<img src="${info.img}" alt="albom-photo">`;
+      cardName.appendChild(cardImgContainer);
+
+      const cardTittle = document.createElement("h3");
+      cardTittle.classList.add("product__tittle");
+      cardTittle.innerText = text;
+      cardName.appendChild(cardTittle);
+
+      const cardDescription = document.createElement("div");
+      cardDescription.classList.add("product__description");
+      cardDescription.innerText = info.description;
+      cardTittle.appendChild(cardDescription);
+
+      const cardPrice = document.createElement("div");
+      cardPrice.classList.add("product__price");
+      cardPrice.innerText = info.price + ` ${curent}`;
+      cardName.appendChild(cardPrice);
+
+      createCardButton(cardName, info);
+
+      cardContainer.appendChild(cardName);
     }
-  }else{
-    console.log("whoooh almoust...");
-  }
-  });
 
-  localStorage.removeItem("changed");
-  localStorage.removeItem("productIndex");
-}
-//// витягую ІД
-function getProductId() {
-  let cardsId = [];
-  for (let i = 0; i < savedProducts.length; i++) {
-    let cardInfo = savedProducts[i];
-    console.log(savedProducts[i]);
-    cardsId.push(cardInfo.id);
-    createCard(cardInfo.name, cardInfo, cardContainer,savedProducts);
-  }
-}
-getProductId();
-
-// пошук по назві
-const searchInput = document.getElementById("searchInput");
-
-searchInput.addEventListener("input", function() {
-    const searchText = this.value.trim(); 
-    search(searchText); 
-});
-function search(text) {
-    const products = document.querySelectorAll(".product__card"); 
-    
-    products.forEach(product => {
-        const name = product.innerText.toLowerCase(); 
-        if (name.includes(text.toLowerCase())) {
-          product.style.display = "flex"; 
-        } else {
-          product.style.display = "none";
+    function deleteProduct(id) {
+      if (confirm("delete this disk?")) {
+        const index = savedProducts.findIndex((item) => item.id === id);
+        if (index !== -1) {
+          savedProducts.splice(index, 1);
+          localStorage.setItem("products", JSON.stringify(savedProducts));
+          location.reload();
         }
+      } else {
+        console.log("whoooh almoust...");
+      }
+    }
+    //функція переносить данні цього продукту у табличку де їх можна редагувати
+    function changeProduct(info) {
+      localStorage.setItem("productIndex", info.id);
+      const idOfChangedProduct = localStorage.getItem("productIndex");
+      const findObj = savedProducts.find(
+        (item) => item.id === idOfChangedProduct
+      );
+      localStorage.setItem("changed", JSON.stringify(findObj));
+      window.location.href = "/form.html";
+    }
+
+    function renderProducts() {
+      savedProducts.forEach((product) => {
+        createCard(product.name, product);
+      });
+    }
+
+    function search(text) {
+        const products = document.querySelectorAll(".product__card");
+        products.forEach((product) => {
+            const name = product.innerText.toLowerCase();
+            product.style.display = name.includes(text.toLowerCase()) ? "flex" : "none";
+        });
+    }
+
+    searchInput.addEventListener("input", function () {
+        search(this.value.trim());
     });
-}
+
+    renderProducts();
+  });
+});

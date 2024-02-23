@@ -17,22 +17,9 @@
 
 <body>
   <header>
-    <div class="header__container">
-      <div class="header__menu container">
-        <ul class="header__list">
-          <li><a href="/index.html">main</a></li>
-          <li>
-            <search>
-              <form>
-                <input type="text" id="searchInput" placeholder="Search..." />
-              </form>
-            </search>
-          </li>
-          <li><a href="/storage.html">storage</a></li> 
-          <li><a href="/form.html">NEW product</a></li>
-        </ul>
-      </div>
-    </div>
+    <header>
+      <nav data-include="header-nav.partial.html"></nav>
+    </header>
   </header>
   <main>
     <div class="main__hero">
@@ -43,5 +30,6 @@
     </div>
   </main>
   <footer></footer>
+  <script src="https://unpkg.com/html-data-include@3.3.3/html-data-include.js"></script>
   <script type="module" src="/JS/constructor.js"></script>
 </body>

@@ -28,6 +28,10 @@ h1 {
   text-align: center;
   justify-content: center;
 }
+/* ul{
+  display: flex;
+  justify-content: space-between;
+} */
 img {
   display: block;
   width: 100%;
@@ -36,6 +40,9 @@ a {
   text-decoration: none;
   color: var(--text-color);
 }
+a img{
+  max-height: 30px;
+}
 header {
   position: sticky;
   top: 0;
@@ -43,9 +50,11 @@ header {
   color: var(--text-color);
   text-transform: uppercase;
 }
-header__list {
+ul {
   color: var(--dark-text-color);
   font-family: var(--decorative-text);
+  display: flex;
+  justify-content: space-between;
 }
 .header__container {
   background: var(--gradient-color);
